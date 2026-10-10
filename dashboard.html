@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — SmartBuild</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafc; color: #0f172a; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  .navbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 14px 0; position: sticky; top: 0; z-index: 100; }
+  .navbar-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: #0f172a; text-decoration: none; }
+  .logo-mark { width: 32px; height: 32px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .user-name { font-size: 14px; font-weight: 500; color: #64748b; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent; text-decoration: none; white-space: nowrap; transition: all 0.15s; }
+  .btn-primary { background: #0f172a; color: #fff; }
+  .btn-primary:hover { background: #1e293b; }
+  .btn-ghost { background: transparent; color: #64748b; }
+  .btn-ghost:hover { color: #0f172a; background: #f1f5f9; }
+  .btn-accent { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+  .btn-accent:hover { transform: translateY(-1px); }
+  .btn-danger { background: #fff; color: #dc2626; border-color: #fecaca; }
+  .btn-danger:hover { background: #fef2f2; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 6px; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  .page-header { margin-bottom: 32px; }
+  .page-header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 4px; }
+  .page-header p { color: #64748b; font-size: 15px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .stat { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
+  .stat-label { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .stat-value { font-size: 32px; font-weight: 800; color: #0f172a; letter-spacing: -1px; line-height: 1; }
+  .stat-value.accent { background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .websites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .website-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; transition: all 0.2s; }
+  .website-card:hover { border-color: #cbd5e1; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); transform: translateY(-2px); }
+  .website-header { padding: 20px; border-bottom: 1px solid #f1f5f9; }
+  .website-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .website-slug { font-size: 12px; color: #64748b; font-family: monospace; word-break: break-all; }
+  .website-meta { padding: 16px 20px; display: flex; justify-content: space-between; background: #fafbfc; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #64748b; }
+  .website-actions { padding: 14px 20px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .empty { text-align: center; padding: 80px 24px; background: #fff; border: 2px dashed #e2e8f0; border-radius: 16px; }
+  .empty-icon { width: 72px; height: 72px; background: #eef2ff; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; }
+  .empty h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .empty p { color: #64748b; margin-bottom: 24px; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .loading { text-align: center; padding: 60px 20px; color: #64748b; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: #fff; padding: 14px 20px; border-radius: 10px; font-size: 14px; z-index: 9999; }
+  @media (max-width: 640px) { .user-name { display: none; } .page-header h1 { font-size: 22px; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">S</div>
+      <span>SmartBuild</span>
+    </a>
+    <div class="nav-right">
+      <span class="user-name" id="userName"></span>
+      <a href="/builder.html" class="btn btn-accent">+ New site</a>
+      <button onclick="logout()" class="btn btn-ghost">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>My websites</h1>
+    <p>Manage all your published websites from here.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Total websites</div>
+      <div class="stat-value accent" id="statSites">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total views</div>
+      <div class="stat-value" id="statViews">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Account</div>
+      <div class="stat-value" style="font-size: 18px; padding-top: 8px;" id="statUser">—</div>
+    </div>
+  </div>
+
+  <div id="sitesContainer">
+    <div class="loading">Loading...</div>
+  </div>
+</div>
+
+<script>
+  var token = localStorage.getItem('token');
+  var user = null;
+  try { user = JSON.parse(localStorage.getItem('user') || 'null'); } catch(e) {}
+
+  if (!token || !user) {
+    window.location.href = '/login.html';
+  }
+
+  if (user && user.role === 'admin') {
+    window.location.href = '/admin.html';
+  }
+
+  document.getElementById('userName').textContent = '👋 ' + (user ? user.name : '');
+  document.getElementById('statUser').textContent = user ? user.name.split(' ')[0] : '';
+
+  async function loadSites() {
+    try {
+      var res = await fetch('/api/sites', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+
+      if (res.status === 401) { logout(); return; }
+
+      var data = await res.json();
+      var sites = data.sites || [];
+
+      document.getElementById('statSites').textContent = sites.length;
+      document.getElementById('statViews').textContent = sites.reduce(function(s, w) { return s + (w.views || 0); }, 0);
+
+      var c = document.getElementById('sitesContainer');
+
+      if (sites.length === 0) {
+        c.innerHTML = '<div class="empty">' +
+          '<div class="empty-icon">🌐</div>' +
+          '<h3>No websites yet</h3>' +
+          '<p>Create your first website in just a few minutes.</p>' +
+          '<a href="/builder.html" class="btn btn-accent">Create your first website</a>' +
+        '</div>';
+        return;
+      }
+
+      c.className = 'websites-grid';
+      c.innerHTML = sites.map(function(s) {
+        var date = new Date(s.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        return '<div class="website-card">' +
+          '<div class="website-header">' +
+            '<div class="website-title">' + esc(s.name) + '</div>' +
+            '<div class="website-slug">/site/' + s.slug + '</div>' +
+          '</div>' +
+          '<div class="website-meta">' +
+            '<span>👁 ' + (s.views || 0) + ' views</span>' +
+            '<span>' + date + '</span>' +
+          '</div>' +
+          '<div class="website-actions">' +
+            '<a href="/site/' + s.slug + '" target="_blank" class="btn btn-primary btn-sm">🌐 Visit</a>' +
+            '<button onclick="copyUrl(\'' + s.slug + '\')" class="btn btn-ghost btn-sm">📋 Copy</button>' +
+            '<button onclick="deleteSite(\'' + s.id + '\')" class="btn btn-danger btn-sm">🗑 Delete</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    } catch (e) {
+      document.getElementById('sitesContainer').innerHTML = '<div class="empty"><p style="color:#dc2626;">Error loading</p></div>';
+    }
+  }
+
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, function(m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+    });
+  }
+
+  function copyUrl(slug) {
+    var url = location.origin + '/site/' + slug;
+    var ta = document.createElement('textarea');
+    ta.value = url;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast('📋 Link copied!'); }
+    catch(e) { showToast('❌ Failed'); }
+    document.body.removeChild(ta);
+  }
+
+  async function deleteSite(id) {
+    if (!confirm('Delete this website?')) return;
+    var res = await fetch('/api/sites/' + id, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (res.ok) { showToast('✓ Deleted'); loadSites(); }
+    else showToast('❌ Failed');
+  }
+
+  function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login.html';
+  }
+
+  function showToast(msg) {
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function() { t.remove(); }, 2500);
+  }
+
+  loadSites();
+</script>
+
+</body>
+</html>

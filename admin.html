@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — SmartBuild</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #0f172a; font-size: 14px; min-height: 100vh; }
+  .navbar { background: #0f172a; color: #fff; padding: 14px 0; position: sticky; top: 0; z-index: 100; }
+  .nav-inner { max-width: 1400px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+  .logo-mark { width: 32px; height: 32px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+  .admin-badge { background: rgba(99,102,241,.2); color: #a5b4fc; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; text-decoration: none; transition: all 0.15s; }
+  .btn-ghost { background: transparent; color: #cbd5e1; }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .btn-danger { background: #fff; color: #dc2626; border: 1px solid #fecaca; }
+  .btn-danger:hover { background: #fef2f2; }
+  .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; }
+  .btn-sm { padding: 6px 12px; font-size: 11px; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+  .page-header { margin-bottom: 28px; }
+  .page-header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; }
+  .page-header p { color: #64748b; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .stat { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
+  .stat-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .stat-value { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+  .stat-value.accent { background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .tabs { display: flex; gap: 4px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 4px; margin-bottom: 20px; }
+  .tab { padding: 10px 20px; font-size: 13px; font-weight: 700; color: #64748b; background: transparent; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; }
+  .tab.active { background: #0f172a; color: #fff; }
+  .table-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; }
+  .table-header { padding: 18px 24px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .table-title { font-size: 16px; font-weight: 700; }
+  .search-box { flex: 1; max-width: 300px; }
+  .search-box input { width: 100%; padding: 9px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; font-family: inherit; }
+  .search-box input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #f8fafc; padding: 12px 20px; text-align: left; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; }
+  td { padding: 14px 20px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #fafbfc; }
+  .user-cell { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #8b5cf6); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; }
+  .user-name { font-weight: 600; }
+  .user-email { font-size: 12px; color: #64748b; }
+  .badge { display: inline-flex; padding: 3px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+  .badge-active { background: #ecfdf5; color: #059669; }
+  .badge-blocked { background: #fef2f2; color: #dc2626; }
+  .badge-admin { background: #eef2ff; color: #6366f1; }
+  .badge-guest { background: #fef3c7; color: #d97706; }
+  .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .empty { text-align: center; padding: 60px 20px; color: #94a3b8; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: #fff; padding: 14px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 9999; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+  .login-box { max-width: 400px; margin: 100px auto; background: #fff; border-radius: 16px; padding: 40px 32px; border: 1px solid #e2e8f0; box-shadow: 0 20px 60px rgba(15,23,42,0.08); }
+  .login-box h2 { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 6px; }
+  .login-box p { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 24px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 6px; text-transform: uppercase; }
+  .field input { width: 100%; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 14px; font-family: inherit; }
+  .field input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
+  .msg { text-align: center; font-size: 13px; padding: 10px; border-radius: 8px; margin-top: 14px; display: none; }
+  .msg.error { display: block; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN VIEW -->
+<div id="loginView">
+  <div class="login-box">
+    <div style="text-align:center; margin-bottom:20px;">
+      <div style="width:60px;height:60px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:24px;margin:0 auto 12px;">S</div>
+    </div>
+    <h2>Admin Login</h2>
+    <p>Enter admin credentials</p>
+    <div class="field"><label>Email</label><input type="email" id="adminEmail" value="admin@smartbuild.com"></div>
+    <div class="field"><label>Password</label><input type="password" id="adminPassword" placeholder="Enter password"></div>
+    <button onclick="adminLogin()" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;font-size:14px;">Login</button>
+    <div id="loginMsg" class="msg"></div>
+  </div>
+</div>
+
+<!-- ADMIN VIEW -->
+<div id="adminView" style="display:none;">
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-mark">S</div>
+        <span>SmartBuild</span>
+        <span class="admin-badge">Admin</span>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <span style="font-size:13px; color:#cbd5e1;" id="adminName">Admin</span>
+        <button onclick="logout()" class="btn btn-ghost">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Admin Panel</h1>
+      <p>Manage users, websites, and platform activity</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Total Users</div><div class="stat-value accent" id="statUsers">0</div></div>
+      <div class="stat"><div class="stat-label">Total Websites</div><div class="stat-value" id="statSites">0</div></div>
+      <div class="stat"><div class="stat-label">Total Views</div><div class="stat-value" id="statViews">0</div></div>
+      <div class="stat"><div class="stat-label">New Today</div><div class="stat-value" id="statToday">0</div></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('users', this)">👥 Users</button>
+      <button class="tab" onclick="switchTab('sites', this)">🌐 Websites</button>
+    </div>
+
+    <div id="tab-users" class="table-card">
+      <div class="table-header">
+        <div class="table-title">All Users</div>
+        <div class="search-box"><input type="text" id="userSearch" placeholder="Search users..." oninput="filterUsers()"></div>
+      </div>
+      <div id="usersContainer"><div class="empty">Loading...</div></div>
+    </div>
+
+    <div id="tab-sites" class="table-card" style="display:none;">
+      <div class="table-header">
+        <div class="table-title">All Websites</div>
+        <div class="search-box"><input type="text" id="siteSearch" placeholder="Search websites..." oninput="filterSites()"></div>
+      </div>
+      <div id="sitesContainer"><div class="empty">Loading...</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var token = localStorage.getItem('token');
+  var user = null;
+  try { user = JSON.parse(localStorage.getItem('user') || 'null'); } catch(e) {}
+
+  var allUsers = [];
+  var allSites = [];
+
+  // Check if already admin
+  if (token && user && user.role === 'admin') {
+    showAdmin();
+  }
+
+  function showAdmin() {
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('adminView').style.display = 'block';
+    document.getElementById('adminName').textContent = user.name;
+    loadStats();
+    loadUsers();
+    loadSites();
+  }
+
+  async function adminLogin() {
+    var email = document.getElementById('adminEmail').value.trim();
+    var password = document.getElementById('adminPassword').value;
+    var msg = document.getElementById('loginMsg');
+    msg.className = 'msg';
+
+    if (!email || !password) { msg.textContent = 'Fill all fields'; msg.className = 'msg error'; return; }
+
+    try {
+      var res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password })
+      });
+
+      var data = await res.json();
+
+      if (!res.ok) { msg.textContent = data.error; msg.className = 'msg error'; return; }
+      if (data.user.role !== 'admin') { msg.textContent = 'Not an admin account'; msg.className = 'msg error'; return; }
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      token = data.token;
+      user = data.user;
+      showAdmin();
+    } catch (e) { msg.textContent = 'Server error'; msg.className = 'msg error'; }
+  }
+
+  function switchTab(tab, el) {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    el.classList.add('active');
+    document.getElementById('tab-users').style.display = tab === 'users' ? 'block' : 'none';
+    document.getElementById('tab-sites').style.display = tab === 'sites' ? 'block' : 'none';
+  }
+
+  async function loadStats() {
+    try {
+      var res = await fetch('/api/admin/stats', { headers: { 'Authorization': 'Bearer ' + token } });
+      var d = await res.json();
+      document.getElementById('statUsers').textContent = d.totalUsers || 0;
+      document.getElementById('statSites').textContent = d.totalSites || 0;
+      document.getElementById('statViews').textContent = d.totalViews || 0;
+      document.getElementById('statToday').textContent = d.activeToday || 0;
+    } catch(e) {}
+  }
+
+  async function loadUsers() {
+    try {
+      var res = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer ' + token } });
+      var d = await res.json();
+      allUsers = d.users || [];
+      renderUsers(allUsers);
+    } catch(e) {}
+  }
+
+  function renderUsers(users) {
+    var c = document.getElementById('usersContainer');
+    if (!users || users.length === 0) { c.innerHTML = '<div class="empty">No users yet</div>'; return; }
+    c.innerHTML = '<div style="overflow-x:auto;"><table><thead><tr><th>User</th><th>Role</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead><tbody>' +
+      users.map(function(u) {
+        var initial = (u.name || 'U').charAt(0).toUpperCase();
+        var roleClass = u.role === 'admin' ? 'badge-admin' : 'badge-guest';
+        var statusClass = u.status === 'blocked' ? 'badge-blocked' : 'badge-active';
+        var date = new Date(u.createdAt).toLocaleDateString();
+        var isAdmin = u.role === 'admin';
+        return '<tr>' +
+          '<td><div class="user-cell"><div class="avatar">' + initial + '</div><div><div class="user-name">' + esc(u.name) + '</div><div class="user-email">' + esc(u.email) + '</div></div></div></td>' +
+          '<td><span class="badge ' + roleClass + '">' + (u.role || 'user') + '</span></td>' +
+          '<td><span class="badge ' + statusClass + '">' + (u.status || 'active') + '</span></td>' +
+          '<td>' + date + '</td>' +
+          '<td><div class="actions">' +
+            (isAdmin ? '—' : 
+              (u.status === 'blocked' ?
+                '<button onclick="toggleStatus(\'' + u.id + '\', \'active\')" class="btn btn-sm btn-ghost" style="background:#ecfdf5;color:#059669;">Unblock</button>' :
+                '<button onclick="toggleStatus(\'' + u.id + '\', \'blocked\')" class="btn btn-sm btn-ghost">Block</button>') +
+              '<button onclick="deleteUser(\'' + u.id + '\')" class="btn btn-sm btn-danger">Delete</button>') +
+          '</div></td>' +
+        '</tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  function filterUsers() {
+    var q = document.getElementById('userSearch').value.toLowerCase();
+    if (!q) { renderUsers(allUsers); return; }
+    renderUsers(allUsers.filter(function(u) { return (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q); }));
+  }
+
+  async function toggleStatus(id, status) {
+    var res = await fetch('/api/admin/users/' + id + '/status', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ status: status })
+    });
+    if (res.ok) { showToast('✓ Updated'); loadUsers(); }
+  }
+
+  async function deleteUser(id) {
+    if (!confirm('Delete this user and all their websites?')) return;
+    var res = await fetch('/api/admin/users/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+    if (res.ok) { showToast('✓ Deleted'); loadUsers(); loadStats(); loadSites(); }
+  }
+
+  async function loadSites() {
+    try {
+      var res = await fetch('/api/admin/sites', { headers: { 'Authorization': 'Bearer ' + token } });
+      var d = await res.json();
+      allSites = d.sites || [];
+      renderSites(allSites);
+    } catch(e) {}
+  }
+
+  function renderSites(sites) {
+    var c = document.getElementById('sitesContainer');
+    if (!sites || sites.length === 0) { c.innerHTML = '<div class="empty">No websites yet</div>'; return; }
+    c.innerHTML = '<div style="overflow-x:auto;"><table><thead><tr><th>Website</th><th>Owner</th><th>Category</th><th>Views</th><th>Actions</th></tr></thead><tbody>' +
+      sites.map(function(s) {
+        return '<tr>' +
+          '<td><div class="user-name">' + esc(s.name) + '</div><div class="user-email">/site/' + s.slug + '</div></td>' +
+          '<td><div class="user-name">' + esc(s.ownerName) + '</div><div class="user-email">' + (s.isGuest ? '👤 Guest' : esc(s.ownerEmail)) + '</div></td>' +
+          '<td><span class="badge badge-guest">' + esc(s.category || 'other') + '</span></td>' +
+          '<td>' + (s.views || 0) + '</td>' +
+          '<td><div class="actions">' +
+            '<a href="/site/' + s.slug + '" target="_blank" class="btn btn-sm btn-ghost">View</a>' +
+            '<button onclick="deleteSite(\'' + s.id + '\')" class="btn btn-sm btn-danger">Delete</button>' +
+          '</div></td>' +
+        '</tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  function filterSites() {
+    var q = document.getElementById('siteSearch').value.toLowerCase();
+    if (!q) { renderSites(allSites); return; }
+    renderSites(allSites.filter(function(s) { return (s.name||'').toLowerCase().includes(q) || (s.slug||'').toLowerCase().includes(q) || (s.ownerName||'').toLowerCase().includes(q); }));
+  }
+
+  async function deleteSite(id) {
+    if (!confirm('Delete this website?')) return;
+    var res = await fetch('/api/admin/sites/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+    if (res.ok) { showToast('✓ Deleted'); loadSites(); loadStats(); }
+  }
+
+  function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    location.reload();
+  }
+
+  function esc(s) { return String(s||'').replace(/[&<>"']/g, function(m) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; }); }
+
+  function showToast(msg) {
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function() { t.remove(); }, 2500);
+  }
+</script>
+
+</body>
+</html>

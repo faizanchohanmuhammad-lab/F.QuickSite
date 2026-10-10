@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in — SmartBuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #0f172a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; -webkit-font-smoothing: antialiased; }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 40px 36px; width: 100%; max-width: 420px; box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06); }
+  .logo-wrap { display: flex; justify-content: center; margin-bottom: 28px; }
+  .logo { width: 48px; height: 48px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3); }
+  h1 { font-size: 24px; font-weight: 700; text-align: center; letter-spacing: -0.5px; margin-bottom: 6px; color: #0f172a; }
+  .subtitle { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 32px; }
+  .field { margin-bottom: 20px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 8px; }
+  input { width: 100%; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 14px; font-family: inherit; background: #fff; color: #0f172a; transition: all 0.15s; }
+  input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+  input::placeholder { color: #94a3b8; }
+  .btn { width: 100%; padding: 13px; background: #0f172a; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.15s; margin-top: 4px; }
+  .btn:hover:not(:disabled) { background: #1e293b; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(15, 23, 42, 0.2); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .msg { text-align: center; font-size: 13px; font-weight: 600; margin-top: 16px; min-height: 20px; padding: 10px; border-radius: 8px; display: none; }
+  .msg.error { display: block; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; }
+  .msg.success { display: block; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; }
+  .footer { text-align: center; color: #64748b; font-size: 14px; margin-top: 28px; }
+  .footer a { color: #6366f1; text-decoration: none; font-weight: 600; }
+  .footer a:hover { text-decoration: underline; }
+  .admin-hint { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 12px 16px; font-size: 12px; color: #64748b; margin-top: 20px; text-align: center; line-height: 1.6; }
+  .admin-hint strong { color: #334155; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo-wrap">
+    <div class="logo">S</div>
+  </div>
+
+  <h1>Sign in</h1>
+  <p class="subtitle">Welcome back. Please enter your details.</p>
+
+  <form id="loginForm">
+    <div class="field">
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
+    </div>
+
+    <button type="submit" class="btn" id="submitBtn">Sign in</button>
+  </form>
+
+  <div class="msg" id="msg"></div>
+
+  <p class="footer">
+    Don't have an account? <a href="/signup.html">Create one</a>
+  </p>
+
+  <div class="admin-hint">
+    <strong>Admin Login:</strong><br>
+    Use admin credentials from your <code>.env</code> file
+  </div>
+</div>
+
+<script>
+  var form = document.getElementById('loginForm');
+  var btn = document.getElementById('submitBtn');
+  var msg = document.getElementById('msg');
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+
+    if (!email || !password) { showMsg('Please fill all fields', 'error'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+    msg.className = 'msg';
+
+    try {
+      var res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password })
+      });
+
+      var data = await res.json();
+
+      if (!res.ok) {
+        showMsg(data.error || 'Login failed', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Sign in';
+        return;
+      }
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      showMsg('✓ Login successful!', 'success');
+
+      setTimeout(function() {
+        if (data.user.role === 'admin') {
+          window.location.href = '/admin.html';
+        } else {
+          var params = new URLSearchParams(window.location.search);
+          var redirect = params.get('redirect');
+          if (redirect === 'builder') {
+            window.location.href = '/builder.html';
+          } else {
+            window.location.href = '/dashboard.html';
+          }
+        }
+      }, 500);
+
+    } catch (e) {
+      showMsg('Server error. Please try again.', 'error');
+      btn.disabled = false;
+      btn.textContent = 'Sign in';
+    }
+  });
+
+  function showMsg(text, type) {
+    msg.textContent = text;
+    msg.className = 'msg ' + type;
+  }
+
+  (function() {
+    var token = localStorage.getItem('token');
+    var user = localStorage.getItem('user');
+    if (token && user) {
+      try {
+        var u = JSON.parse(user);
+        if (u.role === 'admin') window.location.href = '/admin.html';
+        else window.location.href = '/dashboard.html';
+      } catch (e) {}
+    }
+  })();
+</script>
+
+</body>
+</html>
