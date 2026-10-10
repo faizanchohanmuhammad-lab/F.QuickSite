@@ -3,312 +3,1142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create account — SmartBuild</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Builder — SmartBuild</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #f8fafc;
-    color: #0f172a;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .card {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 40px 36px;
-    width: 100%;
-    max-width: 420px;
-    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
-  }
-
-  .logo-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 28px;
-  }
-
-  .logo {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: #fff;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: 800;
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
-  }
-
-  h1 {
-    font-size: 24px;
-    font-weight: 700;
-    text-align: center;
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
-  }
-
-  .subtitle {
-    text-align: center;
-    color: #64748b;
-    font-size: 14px;
-    margin-bottom: 32px;
-  }
-
-  .field {
-    margin-bottom: 20px;
-  }
-
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #334155;
-    margin-bottom: 8px;
-  }
-
-  input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 14px;
-    font-family: inherit;
-    background: #fff;
-    color: #0f172a;
-    transition: all 0.15s;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-  }
-
-  input::placeholder { color: #94a3b8; }
-
-  .hint {
-    font-size: 12px;
-    color: #94a3b8;
-    margin-top: 6px;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 13px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-top: 4px;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-  }
-
-  .btn:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-  }
-
-  .btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  .msg {
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    margin-top: 16px;
-    min-height: 20px;
-    padding: 10px;
-    border-radius: 8px;
-    display: none;
-  }
-
-  .msg.error {
-    display: block;
-    color: #dc2626;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-  }
-
-  .msg.success {
-    display: block;
-    color: #059669;
-    background: #ecfdf5;
-    border: 1px solid #a7f3d0;
-  }
-
-  .footer {
-    text-align: center;
-    color: #64748b;
-    font-size: 14px;
-    margin-top: 28px;
-  }
-
-  .footer a {
-    color: #6366f1;
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  .footer a:hover { text-decoration: underline; }
-
-  .terms {
-    text-align: center;
-    font-size: 12px;
-    color: #94a3b8;
-    margin-top: 20px;
-    line-height: 1.6;
-  }
-
-  .terms a {
-    color: #6366f1;
-    text-decoration: none;
-  }
-
-  .terms a:hover { text-decoration: underline; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, 'Segoe UI', Arial, sans-serif; }
+  body { height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: #f1f5f9; }
+  .topbar { height: 56px; background: #fff; border-bottom: 1px solid #e2e8f0; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .logo { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #6366f1, #8b5cf6); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 18px; }
+  .brand-text { font-weight: 800; font-size: 14px; }
+  .brand-text small { display: block; color: #94a3b8; font-size: 10px; font-weight: 500; }
+  .actions { display: flex; align-items: center; gap: 8px; }
+  .btn { padding: 8px 14px; border-radius: 8px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .btn-ghost { background: #f1f5f9; color: #64748b; }
+  .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; }
+  .device-btn { padding: 6px 12px; border-radius: 6px; border: none; background: transparent; font-size: 11px; font-weight: 700; color: #64748b; cursor: pointer; font-family: inherit; }
+  .device-btn.active { background: #0f172a; color: #fff; }
+  .main { flex: 1; display: flex; overflow: hidden; }
+  .sidebar { width: 340px; background: #fff; border-right: 1px solid #e2e8f0; overflow-y: auto; flex-shrink: 0; padding: 16px; }
+  .section-label { font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; margin-top: 16px; }
+  .section-label:first-child { margin-top: 0; }
+  .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .cat-btn { padding: 8px 6px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; font-size: 11px; font-weight: 600; color: #64748b; cursor: pointer; font-family: inherit; text-align: center; }
+  .cat-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+  .tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .tpl-card { border: 2px solid #e2e8f0; border-radius: 10px; overflow: hidden; cursor: pointer; }
+  .tpl-card.active { border-color: #6366f1; }
+  .tpl-img { height: 70px; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 4px; }
+  .tpl-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); }
+  .tpl-img > * { position: relative; z-index: 1; color: #fff; }
+  .tpl-emoji { font-size: 14px; }
+  .tpl-name { font-size: 9px; font-weight: 800; }
+  .style-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+  .style-btn { padding: 8px 4px; border-radius: 8px; border: 2px solid #e2e8f0; background: #fff; font-size: 9px; font-weight: 700; color: #64748b; cursor: pointer; font-family: inherit; }
+  .style-btn.active { border-color: #6366f1; background: #eef2ff; color: #6366f1; }
+  .style-emoji { font-size: 16px; display: block; margin-bottom: 2px; }
+  .field { margin-bottom: 10px; }
+  .field label { display: block; font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 4px; }
+  .field input, .field textarea, .field select { width: 100%; padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 7px; font-size: 12px; font-family: inherit; background: #fff; color: #0f172a; }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 12px; }
+  .color-swatch { height: 26px; border-radius: 6px; border: 2px solid transparent; cursor: pointer; }
+  .preview { flex: 1; background: #e2e8f0; padding: 16px; overflow: auto; display: flex; justify-content: center; align-items: flex-start; }
+  .preview-frame { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(15,23,42,0.15); width: 100%; max-width: 1000px; height: 100%; border: 1px solid #cbd5e1; }
+  .preview-frame iframe { width: 100%; height: 100%; border: 0; }
+  .tabs { display: flex; border-bottom: 1px solid #e2e8f0; margin: -16px -16px 16px -16px; }
+  .tab { flex: 1; padding: 12px 4px; background: #fff; border: none; font-size: 10px; font-weight: 700; color: #64748b; cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; }
+  .tab.active { color: #6366f1; border-bottom-color: #6366f1; }
+  .tab i { display: block; font-size: 14px; margin-bottom: 2px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 9999; }
 </style>
 </head>
 <body>
 
-<div class="card">
-  <div class="logo-wrap">
+<header class="topbar">
+  <div class="brand">
     <div class="logo">S</div>
+    <div class="brand-text">SmartBuild<small>Professional Builder</small></div>
   </div>
+  <div style="display: flex; gap: 4px;">
+    <button class="device-btn active" onclick="setDevice('desktop', this)"><i class="fas fa-desktop"></i></button>
+    <button class="device-btn" onclick="setDevice('tablet', this)"><i class="fas fa-tablet-alt"></i></button>
+    <button class="device-btn" onclick="setDevice('mobile', this)"><i class="fas fa-mobile-alt"></i></button>
+  </div>
+  <div class="actions">
+    <a href="/dashboard.html" class="btn btn-ghost"><i class="fas fa-th-large"></i> Dashboard</a>
+    <button onclick="publish()" class="btn btn-primary"><i class="fas fa-check"></i> Publish</button>
+  </div>
+</header>
 
-  <h1>Create your account</h1>
-  <p class="subtitle">Start building your website in minutes.</p>
-
-  <form id="signupForm">
-    <div class="field">
-      <label for="name">Full name</label>
-      <input type="text" id="name" placeholder="Ali Khan" required autocomplete="name">
+<div class="main">
+  <aside class="sidebar">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('templates', this)"><i class="fas fa-palette"></i>Templates</button>
+      <button class="tab" onclick="switchTab('content', this)"><i class="fas fa-edit"></i>Content</button>
+      <button class="tab" onclick="switchTab('design', this)"><i class="fas fa-cog"></i>Design</button>
     </div>
 
-    <div class="field">
-      <label for="email">Email address</label>
-      <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+    <div id="panel-templates" class="panel active">
+      <div class="section-label">1. Business Type</div>
+      <div class="cat-grid" id="catGrid"></div>
+      <div class="section-label">2. Choose Template</div>
+      <div class="tpl-grid" id="tplGrid"></div>
+      <div class="section-label">3. Design Style</div>
+      <div class="style-grid" id="styleGrid"></div>
     </div>
 
-    <div class="field">
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Minimum 6 characters" required autocomplete="new-password" minlength="6">
-      <p class="hint">Use at least 6 characters</p>
+    <div id="panel-content" class="panel">
+      <div class="section-label">Business Info</div>
+      <div class="field"><label>Business Name</label><input type="text" id="bizName" value="My Business" oninput="render()"></div>
+      <div class="field"><label>Tagline</label><input type="text" id="bizTagline" value="" oninput="render()"></div>
+      <div class="field"><label>About Us</label><textarea id="bizAbout" oninput="render()"></textarea></div>
+      <div class="section-label">Contact</div>
+      <div class="field"><label>WhatsApp</label><input type="text" id="bizWhatsapp" value="+923001234567" oninput="render()"></div>
+      <div class="field"><label>Phone</label><input type="text" id="bizPhone" value="+92 21 3456789" oninput="render()"></div>
+      <div class="field"><label>Email</label><input type="email" id="bizEmail" value="info@business.pk" oninput="render()"></div>
+      <div class="field"><label>Address</label><input type="text" id="bizAddress" value="Karachi, Pakistan" oninput="render()"></div>
     </div>
 
-    <button type="submit" class="btn" id="submitBtn">Create account</button>
-  </form>
+    <div id="panel-design" class="panel">
+      <div class="section-label">Brand Color</div>
+      <input type="color" id="bizColor" value="#6366f1" oninput="render()" style="width:100%; height:36px; border-radius:8px; border:1px solid #e2e8f0; cursor:pointer; margin-bottom:8px;">
+      <div class="color-grid">
+        <div class="color-swatch" onclick="setColor('#6366f1')" style="background:#6366f1;"></div>
+        <div class="color-swatch" onclick="setColor('#8b5cf6')" style="background:#8b5cf6;"></div>
+        <div class="color-swatch" onclick="setColor('#ec4899')" style="background:#ec4899;"></div>
+        <div class="color-swatch" onclick="setColor('#ef4444')" style="background:#ef4444;"></div>
+        <div class="color-swatch" onclick="setColor('#f59e0b')" style="background:#f59e0b;"></div>
+        <div class="color-swatch" onclick="setColor('#10b981')" style="background:#10b981;"></div>
+        <div class="color-swatch" onclick="setColor('#14b8a6')" style="background:#14b8a6;"></div>
+        <div class="color-swatch" onclick="setColor('#0ea5e9')" style="background:#0ea5e9;"></div>
+        <div class="color-swatch" onclick="setColor('#3b82f6')" style="background:#3b82f6;"></div>
+        <div class="color-swatch" onclick="setColor('#1e293b')" style="background:#1e293b;"></div>
+        <div class="color-swatch" onclick="setColor('#dc2626')" style="background:#dc2626;"></div>
+        <div class="color-swatch" onclick="setColor('#7c3aed')" style="background:#7c3aed;"></div>
+      </div>
+      <div class="section-label">Font</div>
+      <div class="field">
+        <select id="bizFont" onchange="render()">
+          <option value="Inter">Inter (Modern)</option>
+          <option value="Georgia">Georgia (Classic)</option>
+          <option value="Arial">Arial (Clean)</option>
+        </select>
+      </div>
+    </div>
+  </aside>
 
-  <div class="msg" id="msg"></div>
-
-  <p class="footer">
-    Already have an account? <a href="/login.html">Sign in</a>
-  </p>
-
-  <p class="terms">
-    By creating an account, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
-  </p>
+  <main class="preview">
+    <div class="preview-frame" id="previewFrame">
+      <iframe id="previewIframe"></iframe>
+    </div>
+  </main>
 </div>
 
 <script>
-  var form = document.getElementById('signupForm');
-  var btn = document.getElementById('submitBtn');
-  var msg = document.getElementById('msg');
+// ============================================================
+// CATEGORIES
+// ============================================================
+var CATEGORIES = {
+  portfolio:  { name: 'Portfolio', emoji: '💼' },
+  restaurant: { name: 'Restaurant', emoji: '🍽️' },
+  cafe:       { name: 'Cafe', emoji: '☕' },
+  clothes:    { name: 'Clothes', emoji: '👕' },
+  shoes:      { name: 'Shoes', emoji: '👟' },
+  pharmacy:   { name: 'Pharmacy', emoji: '💊' },
+  clinic:     { name: 'Clinic', emoji: '🏥' },
+  school:     { name: 'School', emoji: '🎓' },
+  gym:        { name: 'Gym', emoji: '💪' },
+  salon:      { name: 'Salon', emoji: '💇' },
+  realestate: { name: 'Real Estate', emoji: '🏠' }
+};
 
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
+var STYLES = [
+  { key: 'modern', name: 'Modern', emoji: '✨' },
+  { key: 'classic', name: 'Classic', emoji: '🏛️' },
+  { key: 'bold', name: 'Bold', emoji: '⚡' },
+  { key: 'dark', name: 'Dark', emoji: '🌙' },
+  { key: 'elegant', name: 'Elegant', emoji: '💎' },
+  { key: 'gradient', name: 'Gradient', emoji: '🌈' },
+  { key: 'minimal', name: 'Minimal', emoji: '◻️' },
+  { key: 'neon', name: 'Neon', emoji: '💡' },
+  { key: 'soft', name: 'Soft', emoji: '🌸' }
+];
 
-    var name = document.getElementById('name').value.trim();
-    var email = document.getElementById('email').value.trim();
-    var password = document.getElementById('password').value;
+// ============================================================
+// TEMPLATES — FULL UNIQUE DATA PER CATEGORY
+// ============================================================
+var TEMPLATES = {
 
-    if (!name || !email || !password) {
-      showMsg('Please fill all fields', 'error');
-      return;
+  // ============ PORTFOLIO ============
+  portfolio: [
+    {
+      id: 'pf1', name: 'Developer CV', emoji: '💻', img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400',
+      hero: { title: 'Hi, I am Ahmed Khan', subtitle: 'Full Stack Developer · 5+ Years Experience' },
+      about: 'I am a passionate full-stack developer specializing in React, Node.js, and cloud architecture. I have built 50+ web applications for clients worldwide.',
+      color: '#6366f1',
+      skills: ['React', 'Node.js', 'MongoDB', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Python', 'AWS', 'Docker', 'GraphQL', 'PostgreSQL', 'Git'],
+      projects: [
+        { name: 'E-commerce Platform', desc: 'Full-featured online store with Stripe integration', emoji: '🛒' },
+        { name: 'Task Manager', desc: 'Team collaboration tool with real-time updates', emoji: '📝' },
+        { name: 'Portfolio Website', desc: 'Personal portfolio with animations', emoji: '🌐' },
+        { name: 'Weather Dashboard', desc: 'Real-time weather application', emoji: '☀️' },
+        { name: 'Chat Application', desc: 'Real-time messaging platform', emoji: '💬' },
+        { name: 'Blog CMS', desc: 'Headless CMS for content creators', emoji: '📰' }
+      ],
+      services: [
+        { name: 'Web Development', price: 'From $500', emoji: '💻' },
+        { name: 'Mobile Apps', price: 'From $1500', emoji: '📱' },
+        { name: 'UI/UX Design', price: 'From $300', emoji: '🎨' },
+        { name: 'Code Review', price: '$100/hr', emoji: '🔍' }
+      ],
+      experience: [
+        { role: 'Senior Developer', company: 'TechCorp', years: '2020 - Present' },
+        { role: 'Full Stack Dev', company: 'StartupXYZ', years: '2018 - 2020' },
+        { role: 'Junior Developer', company: 'WebAgency', years: '2016 - 2018' }
+      ],
+      testimonials: [
+        { name: 'Sarah Ahmed', text: 'Excellent work quality and on-time delivery!', rating: 5 },
+        { name: 'Bilal Khan', text: 'Highly professional developer.', rating: 5 }
+      ]
+    },
+    {
+      id: 'pf2', name: 'Photographer', emoji: '📷', img: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400',
+      hero: { title: 'Through My Lens', subtitle: 'Weddings · Portraits · Events' },
+      about: 'Professional photographer with 8 years of experience in weddings, portraits, and commercial photography. Based in Karachi, available worldwide.',
+      color: '#0f172a',
+      skills: ['Wedding Photography', 'Portrait', 'Event Coverage', 'Product Shoot', 'Fashion', 'Landscape', 'Drone Photography', 'Video Editing'],
+      projects: [
+        { name: 'Royal Wedding', desc: 'Full-day wedding coverage', emoji: '💍' },
+        { name: 'Fashion Editorial', desc: 'Magazine shoot', emoji: '👗' },
+        { name: 'Product Campaign', desc: 'E-commerce photography', emoji: '📦' },
+        { name: 'Corporate Headshots', desc: 'Team photography', emoji: '👔' }
+      ],
+      services: [
+        { name: 'Wedding Package', price: 'Rs. 50000', emoji: '💍' },
+        { name: 'Portrait Session', price: 'Rs. 15000', emoji: '📸' },
+        { name: 'Event Coverage', price: 'Rs. 25000', emoji: '🎥' },
+        { name: 'Product Shoot', price: 'Rs. 10000', emoji: '📦' }
+      ],
+      experience: [
+        { role: 'Lead Photographer', company: 'Studio X', years: '2020 - Present' },
+        { role: 'Freelance Photographer', company: 'Self-employed', years: '2016 - 2020' }
+      ],
+      testimonials: [
+        { name: 'Wedding Couple', text: 'Amazing photos! Captured every special moment.', rating: 5 }
+      ]
+    },
+    {
+      id: 'pf3', name: 'Graphic Designer', emoji: '🎨', img: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400',
+      hero: { title: 'Design That Speaks', subtitle: 'Branding · Logo · Illustration' },
+      about: 'Award-winning graphic designer specializing in brand identity, logo design, and visual storytelling.',
+      color: '#8b5cf6',
+      skills: ['Logo Design', 'Brand Identity', 'Illustration', 'Figma', 'Photoshop', 'Illustrator', 'Typography', 'Packaging'],
+      projects: [
+        { name: 'Brand Identity', desc: 'Complete rebrand for startup', emoji: '✨' },
+        { name: 'Logo Collection', desc: '50+ logos designed', emoji: '🎨' },
+        { name: 'Social Media Kit', desc: 'Instagram templates', emoji: '📱' }
+      ],
+      services: [
+        { name: 'Logo Design', price: 'From $150', emoji: '🎨' },
+        { name: 'Brand Identity', price: 'From $500', emoji: '✨' },
+        { name: 'Social Media Kit', price: '$100', emoji: '📱' }
+      ],
+      experience: [
+        { role: 'Senior Designer', company: 'Design Studio', years: '2019 - Present' }
+      ],
+      testimonials: [{ name: 'Startup Founder', text: 'Our brand never looked better!', rating: 5 }]
     }
+  ],
 
-    if (name.length < 2) {
-      showMsg('Name must be at least 2 characters', 'error');
-      return;
+  // ============ RESTAURANT ============
+  restaurant: [
+    {
+      id: 'r1', name: 'Biryani House', emoji: '🍛', img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400',
+      hero: { title: 'Authentic Biryani', subtitle: "Karachi's most loved since 1995" },
+      about: 'Authentic Sindhi biryani since 1995. We use hand-picked spices, premium basmati rice, and traditional cooking methods passed down through generations.',
+      color: '#dc2626',
+      timing: 'Open Daily: 11 AM - 11 PM',
+      delivery: 'Free delivery on orders above Rs. 800',
+      menu: [
+        { name: 'Chicken Biryani', price: 'Rs. 380', desc: 'Signature Sindhi style', emoji: '🍛' },
+        { name: 'Beef Pulao', price: 'Rs. 450', desc: 'Slow-cooked perfection', emoji: '🍚' },
+        { name: 'Mutton Karahi', price: 'Rs. 1400', desc: 'Fresh mutton, rich gravy', emoji: '🍲' },
+        { name: 'Chicken Tikka', price: 'Rs. 320', desc: 'Charcoal grilled', emoji: '🍗' },
+        { name: 'Seekh Kabab', price: 'Rs. 400', desc: 'Juicy minced meat', emoji: '🍢' },
+        { name: 'Naan', price: 'Rs. 30', desc: 'Fresh tandoori', emoji: '🫓' },
+        { name: 'Raita', price: 'Rs. 80', desc: 'Yogurt side', emoji: '🥛' },
+        { name: 'Soft Drink', price: 'Rs. 100', desc: 'Chilled', emoji: '🥤' }
+      ],
+      categories: ['Biryani', 'BBQ', 'Karahi', 'Breads', 'Beverages'],
+      gallery: [
+        'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600',
+        'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600',
+        'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600',
+        'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=600',
+        'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600',
+        'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600'
+      ],
+      reviews: [
+        { name: 'Ahmad Raza', text: 'Best biryani in Karachi! Authentic taste.', rating: 5 },
+        { name: 'Fatima Khan', text: 'Consistent quality for years.', rating: 5 },
+        { name: 'Bilal Ahmed', text: 'Highly recommended!', rating: 5 }
+      ]
+    },
+    {
+      id: 'r2', name: 'Pizza Corner', emoji: '🍕', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400',
+      hero: { title: 'Hot & Fresh Pizza', subtitle: 'Delivered in 30 minutes' },
+      about: 'Freshly baked pizzas with premium ingredients and authentic Italian recipes.',
+      color: '#f59e0b',
+      timing: 'Open: 12 PM - 12 AM',
+      delivery: 'Free delivery on orders above Rs. 1000',
+      menu: [
+        { name: 'Margherita', price: 'Rs. 850', desc: 'Classic cheese', emoji: '🍕' },
+        { name: 'Pepperoni', price: 'Rs. 1200', desc: 'Loaded pepperoni', emoji: '🍕' },
+        { name: 'BBQ Chicken', price: 'Rs. 1350', desc: 'Smoky BBQ', emoji: '🍕' },
+        { name: 'Veggie Supreme', price: 'Rs. 1100', desc: 'Fresh vegetables', emoji: '🍕' },
+        { name: 'Garlic Bread', price: 'Rs. 350', desc: 'Buttery', emoji: '🥖' },
+        { name: 'Pasta Alfredo', price: 'Rs. 700', desc: 'Creamy', emoji: '🍝' },
+        { name: 'Wings (6pcs)', price: 'Rs. 550', desc: 'Spicy', emoji: '🍗' }
+      ],
+      categories: ['Pizza', 'Sides', 'Pasta', 'Wings', 'Drinks'],
+      gallery: [
+        'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600',
+        'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600',
+        'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600'
+      ],
+      reviews: [{ name: 'Sara', text: 'Delicious pizza!', rating: 5 }]
     }
+  ],
 
-    if (password.length < 6) {
-      showMsg('Password must be at least 6 characters', 'error');
-      return;
+  // ============ CAFE ============
+  cafe: [
+    {
+      id: 'cf1', name: 'Cafe Aroma', emoji: '☕', img: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400',
+      hero: { title: 'Cafe Aroma', subtitle: 'Where every cup tells a story' },
+      about: 'Your neighborhood cafe serving premium coffee, fresh pastries, and light meals. Perfect for work, study, or meeting friends.',
+      color: '#92400e',
+      timing: 'Open Daily: 8 AM - 11 PM',
+      delivery: 'Wifi: FREE · Study space available',
+      menu: [
+        { name: 'Espresso', price: 'Rs. 300', desc: 'Strong & rich', emoji: '☕' },
+        { name: 'Cappuccino', price: 'Rs. 400', desc: 'Creamy foam', emoji: '☕' },
+        { name: 'Latte', price: 'Rs. 420', desc: 'Smooth & milky', emoji: '☕' },
+        { name: 'Cold Brew', price: 'Rs. 450', desc: 'Iced coffee', emoji: '🧊' },
+        { name: 'Croissant', price: 'Rs. 350', desc: 'Fresh baked', emoji: '🥐' },
+        { name: 'Cheesecake', price: 'Rs. 500', desc: 'New York style', emoji: '🍰' },
+        { name: 'Sandwich', price: 'Rs. 450', desc: 'Club sandwich', emoji: '🥪' }
+      ],
+      categories: ['Coffee', 'Cold Drinks', 'Pastries', 'Snacks', 'Desserts'],
+      gallery: [
+        'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600',
+        'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600',
+        'https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=600'
+      ],
+      reviews: [{ name: 'Ayesha', text: 'Cozy place with great coffee!', rating: 5 }]
     }
+  ],
 
-    btn.disabled = true;
-    btn.textContent = 'Creating account...';
-    msg.className = 'msg';
-
-    try {
-      var res = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, email: email, password: password })
-      });
-
-      var data = await res.json();
-
-      if (!res.ok) {
-        showMsg(data.error || 'Signup failed', 'error');
-        btn.disabled = false;
-        btn.textContent = 'Create account';
-        return;
-      }
-
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-
-      showMsg('✓ Account created! Redirecting...', 'success');
-
-      setTimeout(function() {
-        var params = new URLSearchParams(window.location.search);
-        var redirect = params.get('redirect');
-        if (redirect === 'builder') {
-          window.location.href = '/builder.html';
-        } else {
-          window.location.href = '/dashboard.html';
-        }
-      }, 700);
-
-    } catch (e) {
-      showMsg('Server error. Please try again.', 'error');
-      btn.disabled = false;
-      btn.textContent = 'Create account';
+  // ============ CLOTHES ============
+  clothes: [
+    {
+      id: 'cl1', name: 'Fashion Hub', emoji: '👗', img: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=400',
+      hero: { title: 'Latest Fashion 2024', subtitle: 'Trendy clothes for everyone' },
+      about: 'Fashion Hub brings you the latest trends in clothing at affordable prices. Premium quality, modern designs, fast delivery.',
+      color: '#ec4899',
+      delivery: 'Free delivery above Rs. 3000 · 7-day returns',
+      products: [
+        { name: 'Cotton T-Shirt', price: 'Rs. 1500', desc: 'Men · Premium cotton', emoji: '👕' },
+        { name: 'Denim Jeans', price: 'Rs. 3500', desc: 'Men · Slim fit', emoji: '👖' },
+        { name: 'Summer Dress', price: 'Rs. 4500', desc: 'Women · Floral print', emoji: '👗' },
+        { name: 'Winter Jacket', price: 'Rs. 8500', desc: 'Unisex · Leather', emoji: '🧥' },
+        { name: 'Kids T-Shirt', price: 'Rs. 800', desc: 'Kids · Cotton', emoji: '👶' },
+        { name: 'Silk Scarf', price: 'Rs. 1200', desc: 'Women · Printed', emoji: '🧣' },
+        { name: 'Formal Shirt', price: 'Rs. 2500', desc: 'Men · Office wear', emoji: '👔' },
+        { name: 'Jeans Shorts', price: 'Rs. 1800', desc: 'Unisex · Summer', emoji: '🩳' }
+      ],
+      categories: ['Men', 'Women', 'Kids', 'Accessories', 'Winter'],
+      brands: ['Nike', 'Adidas', 'Levi\'s', 'Zara', 'H&M', 'Uniqlo'],
+      gallery: [
+        'https://images.unsplash.com/photo-1445205170230-053b83016050?w=600',
+        'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=600',
+        'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600',
+        'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600'
+      ],
+      reviews: [
+        { name: 'Ayesha', text: 'Great quality fabric!', rating: 5 },
+        { name: 'Hamza', text: 'Fast delivery, nice packaging.', rating: 5 }
+      ]
+    },
+    {
+      id: 'cl2', name: 'Urban Style', emoji: '👔', img: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=400',
+      hero: { title: 'Urban Streetwear', subtitle: 'Style for the modern generation' },
+      about: 'Street style clothing for trendsetters. Unique designs, limited editions, quality materials.',
+      color: '#0f172a',
+      delivery: 'Free delivery above Rs. 5000',
+      products: [
+        { name: 'Hoodie', price: 'Rs. 2500', desc: 'Comfortable · Oversized', emoji: '🧥' },
+        { name: 'Cargo Pants', price: 'Rs. 3000', desc: 'Utility pockets', emoji: '👖' },
+        { name: 'Graphic Tee', price: 'Rs. 1800', desc: 'Bold prints', emoji: '👕' },
+        { name: 'Bomber Jacket', price: 'Rs. 6500', desc: 'Streetwear', emoji: '🧥' },
+        { name: 'Snapback Cap', price: 'Rs. 1200', desc: 'Adjustable', emoji: '🧢' }
+      ],
+      categories: ['Hoodies', 'Tees', 'Pants', 'Jackets', 'Accessories'],
+      brands: ['Supreme', 'Off-White', 'BAPE', 'Stussy', 'Palace'],
+      gallery: [
+        'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=600',
+        'https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=600'
+      ],
+      reviews: [{ name: 'Zain', text: 'Perfect street style!', rating: 5 }]
     }
-  });
+  ],
 
-  function showMsg(text, type) {
-    msg.textContent = text;
-    msg.className = 'msg ' + type;
+  // ============ SHOES ============
+  shoes: [
+    {
+      id: 'sh1', name: 'Shoe Palace', emoji: '👟', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400',
+      hero: { title: 'Premium Shoes', subtitle: 'Step up your style' },
+      about: 'Premium shoes from top brands. Sports, casual, formal — we have them all. Genuine products guaranteed.',
+      color: '#dc2626',
+      delivery: 'Free delivery · 30-day exchange',
+      products: [
+        { name: 'Nike Air Max', price: 'Rs. 12000', desc: 'Running · All sizes', emoji: '👟' },
+        { name: 'Adidas Ultra', price: 'Rs. 15000', desc: 'Sports · Boost tech', emoji: '👟' },
+        { name: 'Puma Casual', price: 'Rs. 8000', desc: 'Daily wear', emoji: '👟' },
+        { name: 'Formal Oxfords', price: 'Rs. 10000', desc: 'Office · Leather', emoji: '👞' },
+        { name: 'Running Shoes', price: 'Rs. 9000', desc: 'Sports', emoji: '👟' },
+        { name: 'Kids Sneakers', price: 'Rs. 4500', desc: 'Kids size', emoji: '👟' },
+        { name: 'Sandals', price: 'Rs. 3000', desc: 'Summer wear', emoji: '👡' }
+      ],
+      categories: ['Sports', 'Casual', 'Formal', 'Kids', 'Sandals'],
+      brands: ['Nike', 'Adidas', 'Puma', 'Reebok', 'New Balance', 'Bata'],
+      gallery: [
+        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600',
+        'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600',
+        'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600'
+      ],
+      reviews: [
+        { name: 'Usman', text: 'Best quality shoes!', rating: 5 },
+        { name: 'Hamza', text: 'Original products.', rating: 5 }
+      ]
+    }
+  ],
+
+  // ============ PHARMACY ============
+  pharmacy: [
+    {
+      id: 'ph1', name: 'City Pharmacy', emoji: '💊', img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400',
+      hero: { title: 'Your Health, Our Priority', subtitle: 'Trusted medical store for 15 years' },
+      about: 'City Pharmacy provides authentic medicines, health supplements, and medical equipment. 24/7 service with home delivery.',
+      color: '#10b981',
+      timing: 'Open 24/7',
+      delivery: 'Free home delivery · Prescription upload available',
+      products: [
+        { name: 'Panadol 500mg', price: 'Rs. 80', desc: 'Fever & pain relief', emoji: '💊' },
+        { name: 'Vitamin D3', price: 'Rs. 450', desc: 'Bone health', emoji: '💊' },
+        { name: 'Cough Syrup', price: 'Rs. 220', desc: 'Dry cough relief', emoji: '🧴' },
+        { name: 'BP Monitor', price: 'Rs. 3500', desc: 'Digital machine', emoji: '🩺' },
+        { name: 'Thermometer', price: 'Rs. 850', desc: 'Digital', emoji: '🌡️' },
+        { name: 'Face Masks (50)', price: 'Rs. 500', desc: '3-ply', emoji: '😷' },
+        { name: 'Sanitizer', price: 'Rs. 300', desc: 'Hand sanitizer', emoji: '🧴' },
+        { name: 'First Aid Kit', price: 'Rs. 1200', desc: 'Complete kit', emoji: '🚑' }
+      ],
+      categories: ['Pain Relief', 'Vitamins', 'Cold & Flu', 'Devices', 'First Aid'],
+      services: [
+        { name: 'Home Delivery', desc: 'Within 2 hours', emoji: '🚚' },
+        { name: 'Prescription Upload', desc: 'Send prescription on WhatsApp', emoji: '📄' },
+        { name: 'Free Health Checkup', desc: 'BP & sugar test', emoji: '🩺' }
+      ],
+      reviews: [
+        { name: 'Patient', text: 'Fast delivery and genuine medicines.', rating: 5 }
+      ]
+    }
+  ],
+
+  // ============ CLINIC ============
+  clinic: [
+    {
+      id: 'cl1', name: 'City Hospital', emoji: '🏥', img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400',
+      hero: { title: 'Quality Healthcare', subtitle: 'Expert doctors, modern equipment' },
+      about: 'City Hospital provides 24/7 emergency and healthcare services with expert doctors, modern equipment, and affordable treatment.',
+      color: '#dc2626',
+      timing: 'Emergency: 24/7 · OPD: 9 AM - 9 PM',
+      delivery: 'Ambulance service available',
+      services: [
+        { name: 'General Checkup', price: 'Rs. 1500', desc: 'Full body', emoji: '🏥' },
+        { name: 'Blood Test', price: 'Rs. 800', desc: 'Complete profile', emoji: '🩸' },
+        { name: 'X-Ray', price: 'Rs. 2000', desc: 'Digital X-Ray', emoji: '📷' },
+        { name: 'ECG', price: 'Rs. 1500', desc: 'Heart test', emoji: '❤️' },
+        { name: 'Ultrasound', price: 'Rs. 2500', desc: 'Abdominal', emoji: '🩺' },
+        { name: 'Vaccination', price: 'Rs. 500', desc: 'All vaccines', emoji: '💉' }
+      ],
+      doctors: [
+        { name: 'Dr. Ahmed Khan', specialty: 'Cardiologist', exp: '15 years', emoji: '👨‍⚕️' },
+        { name: 'Dr. Fatima Ali', specialty: 'Pediatrician', exp: '10 years', emoji: '👩‍⚕️' },
+        { name: 'Dr. Hassan Raza', specialty: 'General Surgeon', exp: '12 years', emoji: '👨‍⚕️' },
+        { name: 'Dr. Ayesha Malik', specialty: 'Gynecologist', exp: '8 years', emoji: '👩‍⚕️' }
+      ],
+      specialties: ['Cardiology', 'Pediatrics', 'Surgery', 'Gynecology', 'Orthopedics', 'Neurology'],
+      reviews: [
+        { name: 'Patient Family', text: 'Excellent care and treatment!', rating: 5 }
+      ]
+    },
+    {
+      id: 'cl2', name: 'Dental Care', emoji: '🦷', img: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=400',
+      hero: { title: 'Your Smile, Our Passion', subtitle: 'Modern dental care' },
+      about: 'Professional dental care with modern equipment and experienced dentists. We make dental visits comfortable.',
+      color: '#0ea5e9',
+      timing: 'Mon-Sat: 10 AM - 8 PM',
+      delivery: 'Emergency dental care available',
+      services: [
+        { name: 'Teeth Cleaning', price: 'Rs. 2500', desc: 'Scaling & polish', emoji: '🦷' },
+        { name: 'Root Canal', price: 'Rs. 8000', desc: 'Single sitting', emoji: '🦷' },
+        { name: 'Braces', price: 'Rs. 45000', desc: 'Metal braces', emoji: '😁' },
+        { name: 'Teeth Whitening', price: 'Rs. 5000', desc: 'Laser', emoji: '✨' },
+        { name: 'Tooth Extraction', price: 'Rs. 1500', desc: 'Simple', emoji: '🦷' },
+        { name: 'Dental Implant', price: 'Rs. 35000', desc: 'Single tooth', emoji: '🦷' }
+      ],
+      doctors: [
+        { name: 'Dr. Sarah Ahmed', specialty: 'Orthodontist', exp: '8 years', emoji: '👩‍⚕️' },
+        { name: 'Dr. Ali Raza', specialty: 'Oral Surgeon', exp: '10 years', emoji: '👨‍⚕️' }
+      ],
+      specialties: ['Orthodontics', 'Oral Surgery', 'Cosmetic Dentistry', 'Implants'],
+      reviews: [{ name: 'Patient', text: 'Painless treatment!', rating: 5 }]
+    }
+  ],
+
+  // ============ SCHOOL ============
+  school: [
+    {
+      id: 'sc1', name: 'Bright Academy', emoji: '🎓', img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400',
+      hero: { title: "Shaping Tomorrow's Leaders", subtitle: 'Quality education since 1995' },
+      about: 'Bright Academy provides quality education with modern teaching methods, experienced faculty, and excellent facilities.',
+      color: '#7c3aed',
+      timing: 'Mon-Fri: 8 AM - 3 PM',
+      delivery: 'Admissions Open 2024-25',
+      courses: [
+        { name: 'Primary Education', price: 'Rs. 15000/mo', desc: 'Grades 1-5', emoji: '📚' },
+        { name: 'Secondary', price: 'Rs. 22000/mo', desc: 'Grades 6-10', emoji: '🎓' },
+        { name: 'O-Level', price: 'Rs. 35000/mo', desc: 'Cambridge', emoji: '🎓' },
+        { name: 'A-Level', price: 'Rs. 45000/mo', desc: 'Cambridge', emoji: '🎓' },
+        { name: 'Pre-Medical', price: 'Rs. 25000/mo', desc: 'Intermediate', emoji: '🩺' },
+        { name: 'Pre-Engineering', price: 'Rs. 25000/mo', desc: 'Intermediate', emoji: '⚙️' }
+      ],
+      teachers: [
+        { name: 'Mr. Khan', subject: 'Mathematics', exp: '15 years', emoji: '👨‍🏫' },
+        { name: 'Ms. Fatima', subject: 'English', exp: '12 years', emoji: '👩‍🏫' },
+        { name: 'Mr. Ahmed', subject: 'Physics', exp: '10 years', emoji: '👨‍🏫' },
+        { name: 'Ms. Sana', subject: 'Biology', exp: '8 years', emoji: '👩‍🏫' }
+      ],
+      facilities: ['Library', 'Science Labs', 'Computer Lab', 'Sports Ground', 'Cafeteria', 'Transport'],
+      gallery: [
+        'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600',
+        'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600'
+      ],
+      reviews: [{ name: 'Parent', text: 'Great school with dedicated teachers.', rating: 5 }]
+    }
+  ],
+
+  // ============ GYM ============
+  gym: [
+    {
+      id: 'g1', name: 'FitZone Gym', emoji: '💪', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400',
+      hero: { title: 'Transform Your Body', subtitle: 'Modern gym with certified trainers' },
+      about: 'FitZone is a modern gym with state-of-the-art equipment, certified trainers, and a motivating environment.',
+      color: '#f59e0b',
+      timing: 'Open Daily: 6 AM - 11 PM',
+      delivery: 'Free trial for first week',
+      plans: [
+        { name: 'Monthly', price: 'Rs. 5000', desc: 'Full access', emoji: '💪' },
+        { name: 'Quarterly', price: 'Rs. 13000', desc: 'Save 15%', emoji: '💪' },
+        { name: 'Yearly', price: 'Rs. 45000', desc: 'Best value', emoji: '💪' },
+        { name: 'Personal Training', price: 'Rs. 15000/mo', desc: '1-on-1', emoji: '🏋️' }
+      ],
+      trainers: [
+        { name: 'Ali Khan', specialty: 'Strength Training', exp: '10 years', emoji: '💪' },
+        { name: 'Sara Ahmed', specialty: 'Yoga & Pilates', exp: '8 years', emoji: '🧘' },
+        { name: 'Ahmed Raza', specialty: 'CrossFit', exp: '6 years', emoji: '🏋️' },
+        { name: 'Fatima Ali', specialty: 'Zumba', exp: '5 years', emoji: '💃' }
+      ],
+      classes: ['Weight Training', 'Yoga', 'Zumba', 'CrossFit', 'Cardio', 'MMA'],
+      facilities: ['Free Weights', 'Cardio Area', 'Pool', 'Sauna', 'Locker Rooms', 'Parking'],
+      reviews: [{ name: 'Member', text: 'Great trainers and equipment!', rating: 5 }]
+    }
+  ],
+
+  // ============ SALON ============
+  salon: [
+    {
+      id: 'sl1', name: 'Beauty Salon', emoji: '💇', img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400',
+      hero: { title: 'Beauty & Style', subtitle: 'Professional salon services' },
+      about: 'Beauty Salon offers premium hair, skin, and beauty services. Professional stylists, premium products, relaxed environment.',
+      color: '#ec4899',
+      timing: 'Mon-Sat: 10 AM - 9 PM',
+      delivery: 'Home service available',
+      services: [
+        { name: 'Haircut', price: 'Rs. 800', desc: 'All styles', emoji: '✂️' },
+        { name: 'Facial', price: 'Rs. 1500', desc: 'Deep cleaning', emoji: '💆' },
+        { name: 'Manicure', price: 'Rs. 1000', desc: 'Nail art', emoji: '💅' },
+        { name: 'Pedicure', price: 'Rs. 1200', desc: 'Spa treatment', emoji: '🦶' },
+        { name: 'Hair Color', price: 'Rs. 3000', desc: 'All colors', emoji: '🎨' },
+        { name: 'Bridal Makeup', price: 'Rs. 25000', desc: 'Full package', emoji: '👰' },
+        { name: 'Hair Spa', price: 'Rs. 2000', desc: 'Deep conditioning', emoji: '💆' },
+        { name: 'Waxing', price: 'Rs. 800', desc: 'Full arms/legs', emoji: '✨' }
+      ],
+      packages: [
+        { name: 'Bridal Package', price: 'Rs. 50000', desc: 'Complete bridal', emoji: '👰' },
+        { name: 'Party Package', price: 'Rs. 8000', desc: 'Makeup + hair', emoji: '🎉' },
+        { name: 'Monthly Package', price: 'Rs. 15000', desc: '4 visits', emoji: '📅' }
+      ],
+      stylists: [
+        { name: 'Sana Khan', specialty: 'Hair Stylist', exp: '10 years', emoji: '💇‍♀️' },
+        { name: 'Hina Ali', specialty: 'Makeup Artist', exp: '8 years', emoji: '💄' },
+        { name: 'Rabia Ahmed', specialty: 'Nail Artist', exp: '6 years', emoji: '💅' }
+      ],
+      gallery: [
+        'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600',
+        'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600',
+        'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600',
+        'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=600'
+      ],
+      reviews: [{ name: 'Client', text: 'Beautiful work! Highly professional.', rating: 5 }]
+    }
+  ],
+
+  // ============ REAL ESTATE ============
+  realestate: [
+    {
+      id: 're1', name: 'Prime Properties', emoji: '🏠', img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400',
+      hero: { title: 'Find Your Dream Home', subtitle: 'Premium properties in prime locations' },
+      about: 'Prime Properties is your trusted real estate partner. We help you buy, sell, and rent properties across Pakistan.',
+      color: '#0ea5e9',
+      timing: 'Mon-Sat: 10 AM - 7 PM',
+      delivery: 'Free property consultation',
+      properties: [
+        { name: '3 Bed Apartment', price: 'Rs. 2 Crore', desc: 'DHA Phase 5 · 1800 sqft', emoji: '🏢' },
+        { name: '5 Marla House', price: 'Rs. 1.5 Crore', desc: 'Bahria Town · 4 bed', emoji: '🏠' },
+        { name: '10 Marla Plot', price: 'Rs. 80 Lakh', desc: 'Gulberg · Residential', emoji: '🏗️' },
+        { name: 'Shop for Rent', price: 'Rs. 1 Lakh/mo', desc: 'Commercial area', emoji: '🏪' },
+        { name: 'Farmhouse', price: 'Rs. 5 Crore', desc: '2 acre · Islamabad', emoji: '🏡' },
+        { name: 'Office Space', price: 'Rs. 3 Lakh/mo', desc: 'Business district', emoji: '🏢' }
+      ],
+      categories: ['For Sale', 'For Rent', 'Residential', 'Commercial', 'Plots', 'Farmhouses'],
+      agents: [
+        { name: 'Ahmed Khan', specialty: 'Luxury Homes', exp: '10 years', emoji: '👨‍💼' },
+        { name: 'Fatima Ali', specialty: 'Commercial', exp: '8 years', emoji: '👩‍💼' },
+        { name: 'Bilal Raza', specialty: 'Plots & Land', exp: '12 years', emoji: '👨‍💼' }
+      ],
+      locations: ['DHA', 'Bahria Town', 'Gulberg', 'Clifton', 'Johar Town', 'Model Town'],
+      reviews: [{ name: 'Buyer', text: 'Great service, found our dream home!', rating: 5 }]
+    }
+  ]
+};
+
+// ============================================================
+// STATE
+// ============================================================
+var activeCategory = 'portfolio';
+var activeTemplateId = 'pf1';
+var activeStyle = 'modern';
+var currentTemplate = null;
+var currentLiveHtml = '';
+var savedSlug = '';
+
+// ============================================================
+// RENDER CATEGORIES
+// ============================================================
+function renderCategories() {
+  var grid = document.getElementById('catGrid');
+  grid.innerHTML = Object.keys(CATEGORIES).map(function(k) {
+    var c = CATEGORIES[k];
+    return '<button class="cat-btn ' + (k === activeCategory ? 'active' : '') + '" onclick="changeCategory(\'' + k + '\')">' + c.emoji + ' ' + c.name + '</button>';
+  }).join('');
+}
+
+function changeCategory(cat) {
+  activeCategory = cat;
+  var list = TEMPLATES[cat] || [];
+  if (list.length > 0) {
+    activeTemplateId = list[0].id;
+  }
+  renderCategories();
+  renderTemplates();
+  useTemplate(activeTemplateId);
+}
+
+// ============================================================
+// RENDER TEMPLATES
+// ============================================================
+function renderTemplates() {
+  var list = TEMPLATES[activeCategory] || [];
+  var grid = document.getElementById('tplGrid');
+  if (list.length === 0) {
+    grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; font-size:11px; color:#94a3b8; padding:12px;">Coming soon</p>';
+    return;
+  }
+  grid.innerHTML = list.map(function(t) {
+    var sel = activeTemplateId === t.id ? 'active' : '';
+    return '<div class="tpl-card ' + sel + '" onclick="useTemplate(\'' + t.id + '\')">' +
+      '<div class="tpl-img" style="background-image:url(\'' + t.img + '\')">' +
+        '<div><div class="tpl-emoji">' + t.emoji + '</div><div class="tpl-name">' + t.name + '</div></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ============================================================
+// RENDER STYLES
+// ============================================================
+function renderStyles() {
+  var grid = document.getElementById('styleGrid');
+  grid.innerHTML = STYLES.map(function(s) {
+    return '<button class="style-btn ' + (s.key === activeStyle ? 'active' : '') + '" onclick="setStyle(\'' + s.key + '\', this)">' +
+      '<span class="style-emoji">' + s.emoji + '</span>' + s.name +
+    '</button>';
+  }).join('');
+}
+
+function setStyle(style, el) {
+  activeStyle = style;
+  document.querySelectorAll('.style-btn').forEach(function(b) { b.classList.remove('active'); });
+  el.classList.add('active');
+  render();
+}
+
+// ============================================================
+// USE TEMPLATE
+// ============================================================
+function useTemplate(id) {
+  var list = TEMPLATES[activeCategory] || [];
+  var t = list.find(function(x) { return x.id === id; });
+  if (!t) return;
+  currentTemplate = t;
+  activeTemplateId = id;
+
+  document.getElementById('bizName').value = t.name;
+  document.getElementById('bizTagline').value = t.hero.subtitle;
+  document.getElementById('bizAbout').value = t.about;
+  document.getElementById('bizColor').value = t.color;
+
+  renderTemplates();
+  render();
+  showToast('✓ ' + t.name + ' applied');
+}
+
+// ============================================================
+// TABS / DEVICE / COLOR
+// ============================================================
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(function(b) { b.classList.remove('active'); });
+  el.classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+function setDevice(device, el) {
+  document.querySelectorAll('.device-btn').forEach(function(b) { b.classList.remove('active'); });
+  el.classList.add('active');
+  var f = document.getElementById('previewFrame');
+  if (device === 'tablet') f.style.maxWidth = '600px';
+  else if (device === 'mobile') f.style.maxWidth = '375px';
+  else f.style.maxWidth = '1000px';
+}
+
+function setColor(color) {
+  document.getElementById('bizColor').value = color;
+  render();
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function esc(s) { return String(s || '').replace(/[&<>"']/g, function(m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]; }); }
+function stars(n) { var s = ''; for (var i = 0; i < (n || 5); i++) s += '★'; return s; }
+
+function isCafe() { return activeCategory === 'cafe'; }
+function isRestaurant() { return activeCategory === 'restaurant'; }
+
+// ============================================================
+// RENDER PREVIEW — CATEGORY-SPECIFIC
+// ============================================================
+function render() {
+  if (!currentTemplate) { currentTemplate = TEMPLATES[activeCategory][0]; }
+  var t = currentTemplate;
+
+  var name = document.getElementById('bizName').value || 'Business';
+  var tagline = document.getElementById('bizTagline').value || t.hero.subtitle || '';
+  var about = document.getElementById('bizAbout').value || t.about || '';
+  var whatsapp = document.getElementById('bizWhatsapp').value || '';
+  var phone = document.getElementById('bizPhone').value || '';
+  var email = document.getElementById('bizEmail').value || '';
+  var address = document.getElementById('bizAddress').value || '';
+  var color = document.getElementById('bizColor').value;
+  var font = document.getElementById('bizFont').value;
+  var waNumber = whatsapp.replace(/[^0-9]/g, '');
+
+  var designMap = {
+    modern:   { heroBg: 'linear-gradient(135deg, ' + color + '15, ' + color + '05)', heroText: '#0f172a', bg: '#fff', alt: '#f8fafc', txt: '#0f172a', muted: '#64748b', card: '#fff', border: '#e2e8f0' },
+    classic:  { heroBg: '#f8fafc', heroText: '#0f172a', bg: '#fff', alt: '#f1f5f9', txt: '#0f172a', muted: '#475569', card: '#fff', border: '#e2e8f0' },
+    bold:     { heroBg: color, heroText: '#fff', bg: '#fff', alt: '#f8fafc', txt: '#0f172a', muted: '#64748b', card: '#fff', border: '#e2e8f0' },
+    dark:     { heroBg: '#0f172a', heroText: '#fff', bg: '#0f172a', alt: '#1e293b', txt: '#fff', muted: '#94a3b8', card: '#1e293b', border: '#334155' },
+    elegant:  { heroBg: '#faf7f2', heroText: '#1a1a1a', bg: '#faf7f2', alt: '#f5f0e8', txt: '#1a1a1a', muted: '#6b6b6b', card: '#fff', border: '#e2e8f0' },
+    gradient: { heroBg: 'linear-gradient(135deg, ' + color + ', #8b5cf6)', heroText: '#fff', bg: '#fff', alt: '#f8fafc', txt: '#0f172a', muted: '#64748b', card: '#fff', border: '#e2e8f0' },
+    minimal:  { heroBg: '#fff', heroText: '#0f172a', bg: '#fff', alt: '#fafafa', txt: '#0f172a', muted: '#64748b', card: '#fff', border: '#e2e8f0' },
+    neon:     { heroBg: '#0a0a0a', heroText: '#fff', bg: '#0f0f0f', alt: '#1a1a1a', txt: '#fff', muted: '#9ca3af', card: '#1a1a1a', border: '#334155' },
+    soft:     { heroBg: '#fef3f9', heroText: '#831843', bg: '#fff', alt: '#fef3f9', txt: '#1a1a1a', muted: '#6b7280', card: '#fff', border: '#e2e8f0' }
+  };
+  var d = designMap[activeStyle] || designMap.modern;
+
+  // ======= SECTION BUILDERS (UNIQUE PER CATEGORY) =======
+
+  function sectionHero() {
+    var heroTitle = t.hero.title || name;
+    var heroSub = t.hero.subtitle || tagline;
+    return '<section style="background:' + d.heroBg + '; padding:100px 24px; text-align:center;">' +
+      '<div style="max-width:900px; margin:0 auto;">' +
+        '<h1 style="font-size:56px; font-weight:900; color:' + d.heroText + '; letter-spacing:-2px; line-height:1.05; margin-bottom:20px;">' + esc(heroTitle) + '</h1>' +
+        '<p style="font-size:20px; color:' + d.muted + '; margin-bottom:32px;">' + esc(heroSub) + '</p>' +
+        '<a href="https://wa.me/' + waNumber + '" style="display:inline-block; background:' + color + '; color:#fff; padding:16px 36px; border-radius:14px; text-decoration:none; font-weight:700; font-size:16px;">' +
+          (isRestaurant() || isCafe() ? 'Order on WhatsApp →' : 'Contact Us →') +
+        '</a>' +
+      '</div>' +
+    '</section>';
   }
 
-  // If already logged in
-  (function() {
+  function sectionCategories(cats) {
+    if (!cats || cats.length === 0) return '';
+    return '<section style="padding:60px 24px; background:' + d.alt + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:36px; font-weight:800; color:' + d.txt + '; text-align:center; margin-bottom:32px;">Shop by Category</h2>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:16px;">' +
+        cats.map(function(c) {
+          return '<div style="background:' + d.card + '; border:1px solid ' + d.border + '; border-radius:14px; padding:20px; text-align:center; font-weight:700; color:' + d.txt + '; cursor:pointer;">' + esc(c) + '</div>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionMenu(items) {
+    if (!items || items.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.bg + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; text-align:center; color:' + d.txt + '; letter-spacing:-1.5px; margin-bottom:12px;">Our Menu</h2>' +
+      '<p style="text-align:center; color:' + d.muted + '; margin-bottom:48px; font-size:17px;">Freshly prepared with love</p>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">' +
+        items.map(function(p) {
+          return '<div data-product="' + esc(p.name) + '" style="background:' + d.card + '; border:1px solid ' + d.border + '; border-radius:14px; padding:20px; display:flex; gap:16px; align-items:center;">' +
+            '<div style="font-size:36px;">' + (p.emoji || '🍽️') + '</div>' +
+            '<div style="flex:1;">' +
+              '<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">' +
+                '<h3 style="font-size:16px; font-weight:700; color:' + d.txt + ';">' + esc(p.name) + '</h3>' +
+                '<span style="font-weight:800; color:' + color + '; font-size:16px;">' + esc(p.price) + '</span>' +
+              '</div>' +
+              '<p style="color:' + d.muted + '; font-size:13px;">' + esc(p.desc) + '</p>' +
+            '</div>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionProducts(items, title) {
+    if (!items || items.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.bg + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; text-align:center; color:' + d.txt + '; letter-spacing:-1.5px; margin-bottom:12px;">' + (title || 'Our Products') + '</h2>' +
+      '<p style="text-align:center; color:' + d.muted + '; margin-bottom:48px; font-size:17px;">Quality items for you</p>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">' +
+        items.map(function(p) {
+          return '<div data-product="' + esc(p.name) + '" style="background:' + d.card + '; border:1px solid ' + d.border + '; border-radius:14px; padding:20px; text-align:center;">' +
+            '<div style="font-size:56px; margin-bottom:14px;">' + (p.emoji || '📦') + '</div>' +
+            '<h3 style="font-size:17px; font-weight:700; color:' + d.txt + '; margin-bottom:6px;">' + esc(p.name) + '</h3>' +
+            '<p style="color:' + d.muted + '; font-size:13px; margin-bottom:12px;">' + esc(p.desc) + '</p>' +
+            '<div style="font-size:19px; font-weight:800; color:' + color + '; margin-bottom:14px;">' + esc(p.price) + '</div>' +
+            '<a href="https://wa.me/' + waNumber + '?text=Order ' + encodeURIComponent(p.name) + '" style="display:inline-block; background:' + color + '; color:#fff; padding:10px 24px; border-radius:10px; text-decoration:none; font-weight:700; font-size:13px;">Buy Now</a>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionSkills(skills) {
+    if (!skills || skills.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.alt + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; text-align:center; letter-spacing:-1.5px; margin-bottom:12px;">My Skills</h2>' +
+      '<p style="text-align:center; color:' + d.muted + '; margin-bottom:40px; font-size:16px;">Technologies & expertise</p>' +
+      '<div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;">' +
+        skills.map(function(s) {
+          return '<span style="background:' + color + '20; color:' + color + '; padding:10px 20px; border-radius:100px; font-weight:600; font-size:14px; border:1px solid ' + color + '40;">' + esc(s) + '</span>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionProjects(projects) {
+    if (!projects || projects.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.bg + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; text-align:center; letter-spacing:-1.5px; margin-bottom:48px;">My Projects</h2>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">' +
+        projects.map(function(p) {
+          return '<div style="background:' + d.card + '; border:1px solid ' + d.border + '; border-radius:14px; padding:28px;">' +
+            '<div style="font-size:44px; margin-bottom:14px;">' + (p.emoji || '📁') + '</div>' +
+            '<h3 style="font-size:18px; font-weight:800; color:' + d.txt + '; margin-bottom:8px;">' + esc(p.name) + '</h3>' +
+            '<p style="color:' + d.muted + '; font-size:14px; line-height:1.6;">' + esc(p.desc) + '</p>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionExperience(exp) {
+    if (!exp || exp.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.alt + ';"><div style="max-width:800px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; text-align:center; letter-spacing:-1.5px; margin-bottom:48px;">Experience</h2>' +
+      exp.map(function(e) {
+        return '<div style="background:' + d.card + '; border-left:4px solid ' + color + '; border-radius:10px; padding:20px; margin-bottom:16px;">' +
+          '<div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:6px;">' +
+            '<h3 style="font-size:18px; font-weight:800; color:' + d.txt + ';">' + esc(e.role) + '</h3>' +
+            '<span style="color:' + color + '; font-weight:700; font-size:13px;">' + esc(e.years) + '</span>' +
+          '</div>' +
+          '<p style="color:' + d.muted + '; font-size:15px;">' + esc(e.company) + '</p>' +
+        '</div>';
+      }).join('') +
+    '</div></section>';
+  }
+
+  function sectionServices(items, title) {
+    if (!items || items.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.alt + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; text-align:center; letter-spacing:-1.5px; margin-bottom:48px;">' + (title || 'Our Services') + '</h2>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">' +
+        items.map(function(s) {
+          return '<div style="background:' + d.card + '; border:1px solid ' + d.border + '; border-radius:14px; padding:24px; text-align:center;">' +
+            '<div style="font-size:44px; margin-bottom:12px;">' + (s.emoji || '⭐') + '</div>' +
+            '<h3 style="font-size:17px; font-weight:700; color:' + d.txt + '; margin-bottom:6px;">' + esc(s.name) + '</h3>' +
+            '<p style="color:' + d.muted + '; font-size:13px; margin-bottom:10px;">' + esc(s.desc || '') + '</p>' +
+            (s.price ? '<div style="font-size:17px; font-weight:800; color:' + color + ';">' + esc(s.price) + '</div>' : '') +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionDoctors(docs, title) {
+    if (!docs || docs.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.bg + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; text-align:center; letter-spacing:-1.5px; margin-bottom:48px;">' + (title || 'Our Doctors') + '</h2>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">' +
+        docs.map(function(t) {
+          return '<div style="background:' + d.card + '; border:1px solid ' + d.border + '; border-radius:14px; padding:28px; text-align:center;">' +
+            '<div style="font-size:64px; margin-bottom:12px;">' + (t.emoji || '👤') + '</div>' +
+            '<h3 style="font-size:18px; font-weight:800; color:' + d.txt + '; margin-bottom:4px;">' + esc(t.name) + '</h3>' +
+            '<div style="color:' + color + '; font-weight:700; font-size:14px; margin-bottom:6px;">' + esc(t.specialty || t.subject || '') + '</div>' +
+            '<div style="color:' + d.muted + '; font-size:13px;">' + esc(t.exp || '') + ' experience</div>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionPlans(plans) {
+    if (!plans || plans.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.alt + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; text-align:center; letter-spacing:-1.5px; margin-bottom:48px;">Membership Plans</h2>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">' +
+        plans.map(function(p) {
+          return '<div style="background:' + d.card + '; border:2px solid ' + color + '; border-radius:14px; padding:32px; text-align:center;">' +
+            '<div style="font-size:40px; margin-bottom:12px;">' + (p.emoji || '💪') + '</div>' +
+            '<h3 style="font-size:22px; font-weight:800; color:' + d.txt + '; margin-bottom:8px;">' + esc(p.name) + '</h3>' +
+            '<div style="font-size:28px; font-weight:900; color:' + color + '; margin-bottom:8px;">' + esc(p.price) + '</div>' +
+            '<p style="color:' + d.muted + '; font-size:14px; margin-bottom:20px;">' + esc(p.desc) + '</p>' +
+            '<a href="https://wa.me/' + waNumber + '?text=I want ' + encodeURIComponent(p.name) + '" style="display:inline-block; background:' + color + '; color:#fff; padding:12px 32px; border-radius:10px; text-decoration:none; font-weight:700;">Get Started</a>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionGallery(gallery) {
+    if (!gallery || gallery.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.bg + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; text-align:center; letter-spacing:-1.5px; margin-bottom:40px;">Gallery</h2>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">' +
+        gallery.map(function(img) { return '<div style="aspect-ratio:1; border-radius:14px; background:url(' + img + ') center/cover;"></div>'; }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionReviews(reviews) {
+    if (!reviews || reviews.length === 0) return '';
+    return '<section style="padding:80px 24px; background:' + d.alt + ';"><div style="max-width:1100px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; text-align:center; letter-spacing:-1.5px; margin-bottom:48px;">What Customers Say</h2>' +
+      '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">' +
+        reviews.map(function(r) {
+          return '<div style="background:' + d.card + '; border:1px solid ' + d.border + '; border-radius:14px; padding:28px;">' +
+            '<div style="color:#f59e0b; font-size:18px; margin-bottom:12px;">' + stars(r.rating) + '</div>' +
+            '<p style="color:' + d.muted + '; font-size:15px; line-height:1.7; margin-bottom:16px; font-style:italic;">"' + esc(r.text) + '"</p>' +
+            '<div style="font-weight:700; color:' + d.txt + '; font-size:14px;">— ' + esc(r.name) + '</div>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div></section>';
+  }
+
+  function sectionAbout(about) {
+    if (!about) return '';
+    return '<section style="padding:80px 24px; background:' + d.alt + ';"><div style="max-width:800px; margin:0 auto; text-align:center;">' +
+      '<h2 style="font-size:42px; font-weight:800; color:' + d.txt + '; letter-spacing:-1.5px; margin-bottom:20px;">About Us</h2>' +
+      '<p style="color:' + d.muted + '; font-size:17px; line-height:1.8;">' + esc(about) + '</p>' +
+    '</div></section>';
+  }
+
+  function sectionInfo() {
+    var parts = [];
+    if (t.timing) parts.push('<div style="background:' + color + '15; border-left:4px solid ' + color + '; padding:16px 20px; border-radius:10px; margin-bottom:12px; color:' + d.txt + ';"><strong>⏰ Timing:</strong> ' + esc(t.timing) + '</div>');
+    if (t.delivery) parts.push('<div style="background:' + color + '15; border-left:4px solid ' + color + '; padding:16px 20px; border-radius:10px; color:' + d.txt + ';"><strong>🚚 Info:</strong> ' + esc(t.delivery) + '</div>');
+    if (parts.length === 0) return '';
+    return '<section style="padding:40px 24px; background:' + d.bg + ';"><div style="max-width:800px; margin:0 auto;">' + parts.join('') + '</div></section>';
+  }
+
+  function sectionContact() {
+    return '<section style="background:' + color + '; color:#fff; padding:80px 24px; text-align:center;"><div style="max-width:700px; margin:0 auto;">' +
+      '<h2 style="font-size:42px; font-weight:800; letter-spacing:-1.5px; margin-bottom:28px;">Get in Touch</h2>' +
+      '<div style="display:flex; flex-direction:column; gap:12px; font-size:17px; margin-bottom:32px;">' +
+        (phone ? '<div>📞 ' + esc(phone) + '</div>' : '') +
+        (email ? '<div>✉️ ' + esc(email) + '</div>' : '') +
+        (address ? '<div>📍 ' + esc(address) + '</div>' : '') +
+      '</div>' +
+      '<a href="https://wa.me/' + waNumber + '" style="background:#fff; color:' + color + '; padding:16px 36px; border-radius:14px; text-decoration:none; font-weight:700; font-size:16px; display:inline-block;">Chat on WhatsApp</a>' +
+    '</div></section>';
+  }
+
+  function sectionNav() {
+    return '<nav style="background:' + d.bg + '; padding:16px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid ' + d.border + '; position:sticky; top:0; z-index:100;">' +
+      '<div style="font-weight:900; color:' + d.txt + '; font-size:18px;">' + esc(name) + '</div>' +
+      '<a href="https://wa.me/' + waNumber + '" style="background:' + color + '; color:#fff; padding:10px 20px; border-radius:10px; text-decoration:none; font-weight:700; font-size:14px;">Contact</a>' +
+    '</nav>';
+  }
+
+  function sectionFooter() {
+    return '<footer style="background:#0f172a; color:#94a3b8; padding:40px 24px; text-align:center; font-size:14px;">' +
+      '<div style="max-width:1100px; margin:0 auto;">' +
+        '<div style="font-weight:800; color:#fff; font-size:18px; margin-bottom:8px;">' + esc(name) + '</div>' +
+        '<p style="margin-bottom:16px;">' + esc(tagline) + '</p>' +
+        '<div style="border-top:1px solid #1e293b; padding-top:20px; font-size:13px;">© 2024 ' + esc(name) + '. Built with SmartBuild.</div>' +
+      '</div>' +
+    '</footer>';
+  }
+
+  function floatingWhatsapp() {
+    if (!waNumber) return '';
+    return '<a href="https://wa.me/' + waNumber + '" target="_blank" style="position:fixed; bottom:24px; right:24px; width:56px; height:56px; background:#25d366; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(37,211,102,.4); z-index:999; text-decoration:none;">' +
+      '<svg width="26" height="26" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' +
+    '</a>';
+  }
+
+  // ======= ASSEMBLE PAGE (CATEGORY-SPECIFIC ORDER) =======
+  var content = '';
+
+  // Portfolio
+  if (activeCategory === 'portfolio') {
+    content = sectionNav() + sectionHero() + sectionSkills(t.skills) + sectionProjects(t.projects) + sectionServices(t.services, 'Services') + sectionExperience(t.experience) + sectionReviews(t.testimonials) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  // Restaurant / Cafe
+  else if (activeCategory === 'restaurant' || activeCategory === 'cafe') {
+    content = sectionNav() + sectionHero() + sectionInfo() + sectionCategories(t.categories) + sectionMenu(t.menu) + sectionGallery(t.gallery) + sectionReviews(t.reviews) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  // Clothes / Shoes
+  else if (activeCategory === 'clothes' || activeCategory === 'shoes') {
+    content = sectionNav() + sectionHero() + sectionInfo() + sectionCategories(t.categories) + sectionCategories(t.brands) + sectionProducts(t.products, 'Our Collection') + sectionGallery(t.gallery) + sectionReviews(t.reviews) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  // Pharmacy
+  else if (activeCategory === 'pharmacy') {
+    content = sectionNav() + sectionHero() + sectionInfo() + sectionCategories(t.categories) + sectionProducts(t.products, 'Our Medicines') + sectionServices(t.services, 'Our Services') + sectionReviews(t.reviews) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  // Clinic
+  else if (activeCategory === 'clinic') {
+    content = sectionNav() + sectionHero() + sectionInfo() + sectionServices(t.services, 'Medical Services') + sectionDoctors(t.doctors, 'Our Doctors') + sectionCategories(t.specialties) + sectionReviews(t.reviews) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  // School
+  else if (activeCategory === 'school') {
+    content = sectionNav() + sectionHero() + sectionInfo() + sectionServices(t.courses, 'Our Courses') + sectionDoctors(t.teachers, 'Our Teachers') + sectionCategories(t.facilities) + sectionGallery(t.gallery) + sectionReviews(t.reviews) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  // Gym
+  else if (activeCategory === 'gym') {
+    content = sectionNav() + sectionHero() + sectionInfo() + sectionPlans(t.plans) + sectionDoctors(t.trainers, 'Our Trainers') + sectionCategories(t.classes) + sectionCategories(t.facilities) + sectionReviews(t.reviews) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  // Salon
+  else if (activeCategory === 'salon') {
+    content = sectionNav() + sectionHero() + sectionInfo() + sectionServices(t.services, 'Our Services') + sectionPlans(t.packages) + sectionDoctors(t.stylists, 'Our Stylists') + sectionGallery(t.gallery) + sectionReviews(t.reviews) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  // Real Estate
+  else if (activeCategory === 'realestate') {
+    content = sectionNav() + sectionHero() + sectionInfo() + sectionCategories(t.categories) + sectionProducts(t.properties, 'Available Properties') + sectionDoctors(t.agents, 'Our Agents') + sectionCategories(t.locations) + sectionReviews(t.reviews) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+  else {
+    content = sectionNav() + sectionHero() + sectionProducts(t.products || t.menu || t.services) + sectionAbout(about) + sectionContact() + sectionFooter() + floatingWhatsapp();
+  }
+
+  var fullHTML = '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+    '<title>' + esc(name) + '</title>' +
+    '<link href="https://fonts.googleapis.com/css2?family=' + font.replace(/ /g, '+') + ':wght@400;600;700;800;900&display=swap" rel="stylesheet">' +
+    '<style>*{margin:0;padding:0;box-sizing:border-box;font-family:"' + font + '",-apple-system,sans-serif;}html{scroll-behavior:smooth;}body{background:' + d.bg + ';color:' + d.txt + ';line-height:1.6;}@media(max-width:768px){section{padding:60px 20px!important;}h1{font-size:36px!important;}h2{font-size:28px!important;}}</style>' +
+    '</head><body>' + content + '</body></html>';
+
+  currentLiveHtml = fullHTML;
+
+  var iframe = document.getElementById('previewIframe');
+  var doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open();
+  doc.write(fullHTML);
+  doc.close();
+}
+
+// ============================================================
+// PUBLISH
+// ============================================================
+async function publish() {
+  var name = document.getElementById('bizName').value.trim();
+  if (!name) { showToast('❌ Business name required'); return; }
+
+  try {
+    var headers = { 'Content-Type': 'application/json' };
     var token = localStorage.getItem('token');
-    if (token) {
-      window.location.href = '/dashboard.html';
-    }
-  })();
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+
+    var res = await fetch('/api/sites', {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({ name: name, html: currentLiveHtml, category: activeCategory, style: activeStyle })
+    });
+
+    var data = await res.json();
+    if (!res.ok) { showToast('❌ ' + (data.error || 'Publish failed')); return; }
+
+    savedSlug = data.slug;
+    var url = window.location.origin + data.url;
+    var open = confirm('✅ Published!\n\nURL: ' + url + '\n\nOpen it now?');
+    if (open) window.open(url, '_blank');
+    showToast('✓ Published');
+  } catch (e) { showToast('❌ Network error'); }
+}
+
+function showToast(msg) {
+  var existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  var t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function() { t.remove(); }, 2500);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderCategories();
+renderStyles();
+changeCategory('portfolio');
 </script>
 
 </body>
